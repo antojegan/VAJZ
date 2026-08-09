@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>VAJZ — Comic UI/UX Mockups</title>
+<style>
+  :root{
+    --red:#FF3B30;
+    --yellow:#FFD60A;
+    --blue:#007AFF;
+    --white:#FFFFFF;
+    --black:#000000;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle, var(--black) 1.4px, transparent 1.6px) 0 0/16px 16px,
+      var(--yellow);
+    font-family:'Arial Black','Helvetica Neue',Helvetica,Arial,sans-serif;
+    color:var(--black);
+    padding:28px 16px 80px;
+  }
+  .comic-title{
+    text-align:center;
+    font-size:56px;
+    font-weight:900;
+    letter-spacing:2px;
+    color:var(--white);
+    -webkit-text-stroke:4px var(--black);
+    text-stroke:4px var(--black);
+    transform:rotate(-2deg);
+    margin:0 0 4px;
+  }
+  .comic-sub{
+    text-align:center;
+    font-family:Arial,Helvetica,sans-serif;
+    font-weight:700;
+    font-size:14px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    background:var(--black);
+    color:var(--yellow);
+    display:table;
+    margin:0 auto 36px;
+    padding:6px 18px;
+    border-radius:20px;
+  }
+
+  /* ---- shared comic frame ---- */
+  .page{
+    max-width:1180px;
+    margin:0 auto 56px;
+  }
+  .page-label{
+    display:inline-block;
+    background:var(--red);
+    color:var(--white);
+    font-size:13px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    padding:6px 14px;
+    border:3px solid var(--black);
+    border-radius:6px;
+    transform:rotate(-1deg);
+    margin-bottom:-14px;
+    margin-left:12px;
+    position:relative;
+    z-index:2;
+    box-shadow:3px 3px 0 var(--black);
+  }
+  .frame{
+    background:var(--white);
+    border:5px solid var(--black);
+    border-radius:14px;
+    box-shadow:10px 10px 0 var(--black);
+    padding:26px;
+    position:relative;
+  }
+  .frame::before{ /* halftone corner accent */
+    content:"";
+    position:absolute;
+    width:120px;height:120px;
+    top:-1px;right:-1px;
+    background-image: radial-gradient(circle, var(--black) 2px, transparent 2.2px);
+    background-size:10px 10px;
+    opacity:.15;
+    pointer-events:none;
+    border-top-right-radius:10px;
+  }
+
+  .burst{
+    position:absolute;
+    font-weight:900;
+    background:var(--yellow);
+    border:4px solid var(--black);
+    padding:8px 14px;
+    border-radius:10px;
+    box-shadow:5px 5px 0 var(--black);
+    font-size:13px;
+    letter-spacing:1px;
+    transform:rotate(6deg);
+    z-index:5;
+  }
+
+  /* ---- generic comic button ---- */
+  .btn{
+    font-family:inherit;
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    border:3px solid var(--black);
+    border-radius:8px;
+    padding:11px 22px;
+    box-shadow:4px 4px 0 var(--black);
+    cursor:pointer;
+    display:inline-block;
+  }
+  .btn-blue{background:var(--blue);color:var(--white);}
+  .btn-red{background:var(--red);color:var(--white);}
+  .btn-yellow{background:var(--yellow);color:var(--black);}
+  .btn-white{background:var(--white);color:var(--black);}
+
+  .pill{
+    display:inline-block;
+    border:3px solid var(--black);
+    border-radius:20px;
+    padding:4px 12px;
+    font-size:11px;
+    font-weight:900;
+    text-transform:uppercase;
+  }
+
+  .panel-grid{
+    display:grid;
+    gap:20px;
+  }
+
+  /* ===== NAV BAR (app chrome) ===== */
+  .app-nav{
+    display:flex;align-items:center;justify-content:space-between;
+    background:var(--blue);
+    border:4px solid var(--black);
+    border-radius:10px;
+    padding:12px 18px;
+    margin-bottom:20px;
+    box-shadow:5px 5px 0 var(--black);
+  }
+  .app-logo{
+    font-size:22px;font-weight:900;color:var(--white);
+    -webkit-text-stroke:1.5px var(--black);
+    letter-spacing:1px;
+  }
+  .app-logo span{color:var(--yellow);-webkit-text-stroke:1.5px var(--black);}
+  .app-nav-links{display:flex;gap:10px;}
+  .app-nav-links div{
+    font-size:12px;font-weight:900;color:var(--white);
+    background:rgba(0,0,0,.25);
+    padding:6px 12px;border-radius:6px;
+    border:2px solid var(--black);
+  }
+  .app-nav-links .active{background:var(--yellow);color:var(--black);}
+
+  /* ===== SCREEN 1: Admin Publish & select group ===== */
+  .split{display:grid;grid-template-columns:1.3fr 1fr;gap:22px;}
+  .card{
+    border:3px solid var(--black);
+    border-radius:10px;
+    padding:16px;
+    background:var(--white);
+  }
+  .card h3{margin:0 0 10px;font-size:16px;letter-spacing:.5px;}
+  .group-row{
+    display:flex;align-items:center;justify-content:space-between;
+    border:3px solid var(--black);
+    border-radius:8px;
+    padding:10px 12px;
+    margin-bottom:10px;
+    background:repeating-linear-gradient(135deg,var(--white) 0 10px, #fff7d1 10px 20px);
+  }
+  .group-row.selected{background:var(--yellow);box-shadow:3px 3px 0 var(--black);}
+  .chk{
+    width:22px;height:22px;border:3px solid var(--black);border-radius:5px;
+    display:flex;align-items:center;justify-content:center;font-weight:900;background:var(--white);
+  }
+  .chk.on{background:var(--red);color:var(--white);}
+  .meta-row{display:flex;gap:14px;font-size:11px;font-weight:700;color:#333;margin-top:2px;}
+
+  /* speech bubble */
+  .speech{
+    position:relative;
+    background:var(--white);
+    border:4px solid var(--black);
+    border-radius:16px;
+    padding:14px 16px;
+    font-weight:700;
+    font-size:13px;
+  }
+  .speech:after{
+    content:"";
+    position:absolute;left:36px;bottom:-18px;
+    border-width:16px 10px 0;
+    border-style:solid;
+    border-color:var(--black) transparent transparent;
+  }
+  .speech:before{
+    content:"";
+    position:absolute;left:39px;bottom:-13px;
+    border-width:13px 7px 0;
+    border-style:solid;
+    border-color:var(--white) transparent transparent;
+    z-index:1;
+  }
+
+  /* ===== SCREEN 2: Login ===== */
+  .login-wrap{display:flex;justify-content:center;padding:20px 0 10px;}
+  .login-card{
+    width:380px;
+    border:5px solid var(--black);
+    border-radius:14px;
+    background:var(--white);
+    padding:30px 26px;
+    box-shadow:8px 8px 0 var(--black);
+    text-align:center;
+  }
+  .login-card h2{
+    font-size:26px;margin:6px 0 4px;
+    -webkit-text-stroke:1px var(--black);
+  }
+  .login-card p{font-size:12px;font-weight:700;color:#444;margin-bottom:20px;}
+  .field{
+    text-align:left;margin-bottom:14px;
+  }
+  .field label{
+    font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:1px;
+  }
+  .field input{
+    width:100%;
+    margin-top:5px;
+    border:3px solid var(--black);
+    border-radius:8px;
+    padding:10px 12px;
+    font-size:13px;
+    font-family:inherit;
+    background:#fffdf5;
+  }
+  .star{
+    position:absolute;
+    font-size:34px;color:var(--yellow);
+    -webkit-text-stroke:2px var(--black);
+  }
+
+  /* ===== SCREEN 3: Assessment list (user) ===== */
+  .assess-card{
+    border:3px solid var(--black);
+    border-radius:10px;
+    padding:14px 16px;
+    margin-bottom:12px;
+    display:flex;justify-content:space-between;align-items:center;
+    background:var(--white);
+  }
+  .assess-card .tag{
+    display:inline-block;font-size:10px;font-weight:900;
+    background:var(--blue);color:var(--white);
+    padding:3px 8px;border-radius:5px;margin-right:6px;
+  }
+  .assess-card .tag.live{background:var(--red);}
+  .assess-card .tag.done{background:#8e8e93;}
+
+  /* ===== SCREEN 4: take assessment ===== */
+  .test-shell{
+    border:4px solid var(--black);
+    border-radius:12px;
+    overflow:hidden;
+  }
+  .test-top{
+    background:var(--red);color:var(--white);
+    display:flex;justify-content:space-between;align-items:center;
+    padding:10px 16px;font-weight:900;font-size:13px;
+    border-bottom:4px solid var(--black);
+  }
+  .timer{
+    background:var(--black);color:var(--yellow);
+    padding:4px 12px;border-radius:16px;font-size:13px;
+  }
+  .test-body{display:grid;grid-template-columns:1fr 210px;}
+  .qpane{padding:20px;border-right:4px solid var(--black);}
+  .qnav{padding:16px;background:#fff7d1;}
+  .qnum{
+    width:32px;height:32px;border:3px solid var(--black);border-radius:8px;
+    display:inline-flex;align-items:center;justify-content:center;
+    font-weight:900;margin:4px;font-size:12px;background:var(--white);
+  }
+  .qnum.done{background:var(--blue);color:var(--white);}
+  .qnum.cur{background:var(--yellow);box-shadow:3px 3px 0 var(--black);}
+  .option{
+    display:flex;align-items:center;gap:10px;
+    border:3px solid var(--black);border-radius:8px;
+    padding:10px 12px;margin-bottom:10px;font-weight:700;font-size:13px;
+    background:var(--white);
+  }
+  .option .bullet{
+    width:18px;height:18px;border:3px solid var(--black);border-radius:50%;
+  }
+  .option.pick{background:#dff0ff;}
+  .option.pick .bullet{background:var(--blue);}
+
+  .footer-note{
+    text-align:center;color:var(--black);font-weight:700;font-size:12px;
+    background:var(--white);border:3px dashed var(--black);
+    border-radius:10px;padding:10px;max-width:1180px;margin:0 auto;
+  }
+</style>
+</head>
+<body>
+
+<h1 class="comic-title">VAJZ!</h1>
+<div class="comic-sub">Assessment Platform · UI/UX Mockups</div>
+
+<!-- STYLE GUIDE -->
+<div class="page">
+  <div class="page-label">Style Guide</div>
+  <div class="frame">
+    <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <div style="text-align:center;">
+          <div style="width:74px;height:74px;background:#FF3B30;border:4px solid #000;border-radius:10px;"></div>
+          <div class="pill" style="margin-top:6px;">#FF3B30</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="width:74px;height:74px;background:#FFD60A;border:4px solid #000;border-radius:10px;"></div>
+          <div class="pill" style="margin-top:6px;">#FFD60A</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="width:74px;height:74px;background:#007AFF;border:4px solid #000;border-radius:10px;"></div>
+          <div class="pill" style="margin-top:6px;">#007AFF</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="width:74px;height:74px;background:#FFFFFF;border:4px solid #000;border-radius:10px;"></div>
+          <div class="pill" style="margin-top:6px;">#FFFFFF</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="width:74px;height:74px;background:#000000;border:4px solid #000;border-radius:10px;"></div>
+          <div class="pill" style="margin-top:6px;">#000000</div>
+        </div>
+      </div>
+      <div style="flex:1;min-width:260px;">
+        <p style="font-weight:700;font-size:13px;margin:0 0 8px;">Rules: 3–5px black outlines on every card &amp; button · hard drop shadows (offset, not blurred) · halftone dot fills for accents/backgrounds · bold uppercase display type · rounded-square corners, never fully round except radio/select controls · flat color blocks, no gradients except halftone dots.</p>
+        <button class="btn btn-red">Primary / Danger</button>
+        <button class="btn btn-blue">Secondary</button>
+        <button class="btn btn-yellow">Highlight</button>
+        <button class="btn btn-white">Ghost</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN: ADMIN PUBLISH -->
+<div class="page">
+  <div class="page-label">Admin · Publish Assessment (Select Group)</div>
+  <div class="frame">
+    <div class="burst" style="top:-18px;right:26px;">STEP 4 OF 4!</div>
+    <div class="app-nav">
+      <div class="app-logo">VA<span>JZ</span></div>
+      <div class="app-nav-links">
+        <div>Dashboard</div><div class="active">Assessments</div><div>Courses</div><div>User Mgmt</div>
+      </div>
+    </div>
+    <h3 style="margin:0 0 14px;font-size:20px;">🚀 Publish &amp; Invite — "React JS Screening Round"</h3>
+    <div class="split">
+      <div class="card">
+        <h3>Select Target Group(s)</h3>
+        <div class="group-row selected">
+          <div><b>CSE – 2026 Batch</b><div class="meta-row"><span>👥 128 students</span><span>🏫 Engineering College</span></div></div>
+          <div class="chk on">✓</div>
+        </div>
+        <div class="group-row selected">
+          <div><b>IT – 2026 Batch</b><div class="meta-row"><span>👥 76 students</span><span>🏫 Engineering College</span></div></div>
+          <div class="chk on">✓</div>
+        </div>
+        <div class="group-row">
+          <div><b>MBA – Placement Pool</b><div class="meta-row"><span>👥 54 students</span><span>🏫 B-School</span></div></div>
+          <div class="chk">&nbsp;</div>
+        </div>
+        <div style="margin-top:6px;">
+          <span class="pill" style="background:var(--yellow);">204 CANDIDATES SELECTED</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Or Invite by Email</h3>
+        <div style="border:3px dashed var(--black);border-radius:8px;padding:14px;font-size:12px;font-weight:700;color:#555;margin-bottom:14px;">
+          Drop a CSV or paste comma-separated emails to invite candidates outside a saved group.
+        </div>
+        <div class="speech">POW! Once you hit Publish, every selected group gets an instant email + in-app notification with the test link and window.</div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:12px;margin-top:20px;">
+      <button class="btn btn-white">Save Draft</button>
+      <button class="btn btn-red">Publish &amp; Invite</button>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN: LOGIN -->
+<div class="page">
+  <div class="page-label">User · Login</div>
+  <div class="frame">
+    <div class="login-wrap">
+      <div class="star" style="top:64px;left:calc(50% - 210px);">★</div>
+      <div class="login-card">
+        <h2>WELCOME CHAMP!</h2>
+        <p>Log in to show up and beat your best score.</p>
+        <div class="field">
+          <label>Email</label>
+          <input type="text" placeholder="you@college.edu" />
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" placeholder="••••••••" />
+        </div>
+        <button class="btn btn-blue" style="width:100%;">Sign In</button>
+        <div style="margin-top:12px;font-size:11px;font-weight:700;">Forgot password?</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN: ASSESSMENT LIST -->
+<div class="page">
+  <div class="page-label">User · My Assessments</div>
+  <div class="frame">
+    <div class="app-nav">
+      <div class="app-logo">VA<span>JZ</span></div>
+      <div class="app-nav-links"><div class="active">My Assessments</div><div>Courses</div><div>Profile</div></div>
+    </div>
+    <h3 style="margin:0 0 12px;font-size:18px;">🎯 Assigned to you</h3>
+    <div class="assess-card">
+      <div><span class="tag live">LIVE NOW</span><b>React JS Screening Round</b><div class="meta-row" style="margin-top:6px;">⏱ 45 min · 30 Qs · Closes in 3h 12m</div></div>
+      <button class="btn btn-red">Take Test</button>
+    </div>
+    <div class="assess-card">
+      <div><span class="tag">Upcoming</span><b>Aptitude &amp; Logical Reasoning</b><div class="meta-row" style="margin-top:6px;">⏱ 60 min · 40 Qs · Opens 12 Aug, 10:00 AM</div></div>
+      <button class="btn btn-white">Notify Me</button>
+    </div>
+    <div class="assess-card">
+      <div><span class="tag done">Completed</span><b>DSA Coding Round 1</b><div class="meta-row" style="margin-top:6px;">Score: 82/100 · Submitted 6 Aug</div></div>
+      <button class="btn btn-yellow">View Result</button>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN: TAKE ASSESSMENT -->
+<div class="page">
+  <div class="page-label">User · Take Assessment</div>
+  <div class="frame">
+    <div class="test-shell">
+      <div class="test-top">
+        <div>REACT JS SCREENING ROUND — Q 6 / 30</div>
+        <div class="timer">⏱ 32:14</div>
+      </div>
+      <div class="test-body">
+        <div class="qpane">
+          <p style="font-weight:900;font-size:15px;">Which hook lets a component "remember" a value across re-renders without triggering one?</p>
+          <div class="option"><div class="bullet"></div> useMemo</div>
+          <div class="option pick"><div class="bullet"></div> useRef</div>
+          <div class="option"><div class="bullet"></div> useEffect</div>
+          <div class="option"><div class="bullet"></div> useCallback</div>
+          <div style="display:flex;justify-content:space-between;margin-top:18px;">
+            <button class="btn btn-white">◀ Previous</button>
+            <button class="btn btn-blue">Save &amp; Next ▶</button>
+          </div>
+        </div>
+        <div class="qnav">
+          <div style="font-weight:900;font-size:11px;margin-bottom:8px;">QUESTION MAP</div>
+          <span class="qnum done">1</span><span class="qnum done">2</span><span class="qnum done">3</span>
+          <span class="qnum done">4</span><span class="qnum done">5</span><span class="qnum cur">6</span>
+          <span class="qnum">7</span><span class="qnum">8</span><span class="qnum">9</span>
+          <button class="btn btn-red" style="width:100%;margin-top:16px;font-size:11px;">Submit Test</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer-note">Bold comic-book design system — bright primaries, thick black outlines, halftone fills. Palette: 🟥 #FF3B30 · 🟨 #FFD60A · 🟦 #007AFF · ⬜ #FFFFFF · ⬛ #000000</div>
+
+</body>
+</html>
